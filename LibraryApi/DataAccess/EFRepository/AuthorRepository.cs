@@ -1,6 +1,6 @@
 ﻿using LibraryApi.DataAccess.Interface;
 using LibraryApi.Models;
-using LibraryApi.Providers;
+using LibraryApi.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.DataAccess.EFRepository

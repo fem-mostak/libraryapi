@@ -1,11 +1,12 @@
 ﻿using LibraryApi.DataAccess.EFRepository;
 using LibraryApi.DataAccess.Interface;
 using LibraryApi.Models;
-using LibraryApi.Providers;
+using LibraryApi.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LibraryApi.TDO;
 
 namespace LibraryApi.Controllers
 {
@@ -31,7 +32,7 @@ namespace LibraryApi.Controllers
         }
 
         [HttpPost("addAuthor")]
-        public async Task<IActionResult> AddAuthor([FromBody] AuthorRequestProvider authorRequestProvider)
+        public async Task<IActionResult> AddAuthor([FromBody] AuthorRequestDto authorRequestProvider)
         {
             if (authorRequestProvider.Name.Length > 128) 
             {
@@ -64,41 +65,69 @@ namespace LibraryApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] string newName = null, DateTime? newDateOfBirth = null, string newGenre = null)
+        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] PatchAuthorDto patchAuthorDto)
+        {
+            var author = await _authorRepository.GetById(id);
+
+            if (author == null) 
+            {
+                return BadRequest(new { messge = "Автор не найден" });
+            }
+
+            if (patchAuthorDto.IsFieldPresent(nameof(author.Name)))
+            {
+                if (patchAuthorDto.Name.Length > 128)
+                {
+                    return BadRequest(new { messge = "Очень длиное имя" });
+                }
+
+                bool ifAuthorUnique = await _authorRepository.IsUniqueAuthor(patchAuthorDto.Name, author.DateOfBirth);
+
+                if (!ifAuthorUnique)
+                {
+                    return BadRequest(new { messge = "Tакой Автор существует" });
+                }
+
+                author.Name = patchAuthorDto.Name;  
+            }
+
+            if (patchAuthorDto.IsFieldPresent(nameof(author.Genre)))
+            {
+                author.Genre = patchAuthorDto.Genre;
+            }
+
+            if (patchAuthorDto.IsFieldPresent(nameof(author.DateOfBirth)))
+            {
+
+                if (patchAuthorDto.DateOfBirth < new DateTime(1900, 01, 01))
+                {
+                    return BadRequest(new { messge = "Не верная дата рождения" });
+                }
+
+                bool ifAuthorUnique = await _authorRepository.IsUniqueAuthor(patchAuthorDto.Name, (DateTime)patchAuthorDto.DateOfBirth);
+
+                if (!ifAuthorUnique)
+                {
+                    return BadRequest(new { messge = "Tакой Автор существует" });
+                }
+
+
+                author.DateOfBirth = (DateTime)patchAuthorDto.DateOfBirth;
+            }
+
+            await _authorRepository.Update(author);
+
+            return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAuthorByID(int id)
         {
             var author = await _authorRepository.GetById(id);
 
             if (author == null)
             {
                 return BadRequest(new { messge = "Автор не найден" });
-            }
-
-            if (newName != null)
-            {
-                if (newName.Length > 128)
-                {
-                    return BadRequest(new { messge = "Очень длиное имя" });
-                }
-
-                author.Name = newName;  
-            }
-
-            if (newDateOfBirth != null)
-            {
-
-                if (newDateOfBirth < new DateTime(1900, 01, 01))
-                {
-                    return BadRequest(new { messge = "Не верная дата рождения" });
-                }
-
-                author.DateOfBirth = (DateTime)newDateOfBirth;
-            }
-
-            bool ifAuthorUnique = await _authorRepository.IsUniqueAuthor(author.Name, author.DateOfBirth);
-
-            if (!ifAuthorUnique)
-            {
-                await _authorRepository.Update(author);
             }
 
             return Ok(author);

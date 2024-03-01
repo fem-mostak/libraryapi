@@ -1,5 +1,5 @@
 ﻿using LibraryApi.Models;
-using LibraryApi.Providers;
+using LibraryApi.DTO;
 
 namespace LibraryApi.DataAccess.Interface
 {
