@@ -17,7 +17,6 @@ namespace LibraryApi.Controllers
 
         private IAuthorRepository _authorRepository;
 
-
         public AuthorController(IAuthorRepository authorRepository)
         {
             _authorRepository = authorRepository;
@@ -104,13 +103,12 @@ namespace LibraryApi.Controllers
                     return BadRequest(new { messge = "Не верная дата рождения" });
                 }
 
-                bool ifAuthorUnique = await _authorRepository.IsUniqueAuthor(patchAuthorDto.Name, (DateTime)patchAuthorDto.DateOfBirth);
+                bool ifAuthorUnique = await _authorRepository.IsUniqueAuthor(author.Name, (DateTime)patchAuthorDto.DateOfBirth);
 
                 if (!ifAuthorUnique)
                 {
                     return BadRequest(new { messge = "Tакой Автор существует" });
                 }
-
 
                 author.DateOfBirth = (DateTime)patchAuthorDto.DateOfBirth;
             }
