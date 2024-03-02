@@ -64,13 +64,14 @@ namespace LibraryApi.Controllers
             {
                 Name = bookRequestProvider.Name,
                 Author = author,
-                //AuthorId = author.Id,
+                AuthorId = author.Id,
                 PublicationYear = bookRequestProvider.PublicationYear,
                 QuantityInLibrary = bookRequestProvider.QuantityInLibrary,
                 CreatedAt = DateTime.Now
             };
 
             await _bookRepository.Insert(book);
+
 
             return Ok(book);
         }

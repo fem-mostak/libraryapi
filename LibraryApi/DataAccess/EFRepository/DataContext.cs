@@ -14,7 +14,7 @@ namespace LibraryApi.DataAccess.EFRepository
             //https://duongnt.com/datetime-net6-postgresql/
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-           Database.EnsureDeleted();
+           //Database.EnsureDeleted();
            Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

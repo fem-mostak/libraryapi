@@ -2,6 +2,7 @@ using LibraryApi.DataAccess.EFRepository;
 using LibraryApi.DataAccess.Interface;
 using LibraryApi.DTO;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace LibraryApi
 {
@@ -22,7 +23,10 @@ namespace LibraryApi
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new PatchRequestContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+
+            
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
