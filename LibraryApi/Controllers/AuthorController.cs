@@ -11,7 +11,7 @@ using LibraryApi.TDO;
 namespace LibraryApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/author/[controller]")]
     public class AuthorController : ControllerBase
     {
 

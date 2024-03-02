@@ -2,7 +2,6 @@ using LibraryApi.DataAccess.EFRepository;
 using LibraryApi.DataAccess.Interface;
 using LibraryApi.DTO;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace LibraryApi
 {
@@ -18,7 +17,6 @@ namespace LibraryApi
 
             builder.Services.AddScoped<IBookRepository, BookRepository>()
                             .AddScoped<IAuthorRepository, AuthorRepository>();
-
 
             // Add services to the container.
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -40,7 +38,6 @@ namespace LibraryApi
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

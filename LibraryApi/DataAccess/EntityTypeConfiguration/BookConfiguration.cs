@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryApi.DataAccess.EntityTypeConfiguration
+namespace LibraryApi.DataAccess.EntityTypeConfiguration1
 {
     public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
@@ -35,7 +35,7 @@ namespace LibraryApi.DataAccess.EntityTypeConfiguration
 
             builder.HasOne(b => b.Author)
                 .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId)
+                //.HasForeignKey(b => b.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryApi.DataAccess.EntityTypeConfiguration
+namespace LibraryApi.DataAccess.EntityTypeConfiguration1
 {
     public class AuthorConfiguration : IEntityTypeConfiguration<Author>
     {
