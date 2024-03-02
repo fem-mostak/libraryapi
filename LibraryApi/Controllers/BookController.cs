@@ -63,7 +63,6 @@ namespace LibraryApi.Controllers
             var book = new Book()
             {
                 Name = bookRequestProvider.Name,
-                Author = author,
                 AuthorId = author.Id,
                 PublicationYear = bookRequestProvider.PublicationYear,
                 QuantityInLibrary = bookRequestProvider.QuantityInLibrary,
@@ -72,6 +71,7 @@ namespace LibraryApi.Controllers
 
             await _bookRepository.Insert(book);
 
+            book.Author = null;
 
             return Ok(book);
         }

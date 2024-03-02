@@ -24,5 +24,20 @@ namespace LibraryApi.DataAccess.EFRepository
             return false;
         }
 
+        public override async Task<IEnumerable<Author>> GetAllAsync()
+        {
+            return await _dbSet
+                .Include(b => b.Books)
+                .ToListAsync();
+        }
+
+        public override async Task<Author?> GetById(int TID)
+        {
+            return await _dbSet
+                .Include(b => b.Books)
+                .FirstOrDefaultAsync(b => b.Id == TID);
+        }
+
+
     }
 }
