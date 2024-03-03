@@ -63,7 +63,7 @@ namespace LibraryApi.Controllers
             return Ok(author);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("updateAuthor{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, [FromBody] PatchAuthorDto patchAuthorDto)
         {
             var author = await _authorRepository.GetById(id);

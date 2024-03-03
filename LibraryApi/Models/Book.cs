@@ -8,8 +8,6 @@ namespace LibraryApi.Models
     [Index(nameof(Name), nameof(AuthorId), nameof(PublicationYear), IsUnique = true)]
     public class Book : BaseDBEntity
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [Range(1900, int.MaxValue)]

@@ -7,8 +7,6 @@ namespace LibraryApi.Models
     [Index(nameof(Name), nameof(DateOfBirth), IsUnique = true)]
     public class Author : BaseDBEntity
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(128)]
